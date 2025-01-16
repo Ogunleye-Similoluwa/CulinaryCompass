@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_reciepe_finder/feature/home/presentation/widget/receipe_grid.dart';
-import '../widget/receipe_grid.dart';
-import '../../../riverpod/state_manager.dart';
+import 'package:food_reciepe_finder/feature/riverpod/state_manager.dart';
+
 
 class CategoryResultsScreen extends ConsumerWidget {
   final String title;

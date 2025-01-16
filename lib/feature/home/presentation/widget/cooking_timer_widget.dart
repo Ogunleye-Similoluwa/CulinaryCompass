@@ -11,7 +11,7 @@ class CookingTimer extends StatefulWidget {
 }
 
 class _CookingTimerState extends State<CookingTimer> {
-  late Timer _timer;
+  Timer? _timer;
   late int _secondsRemaining;
   bool _isRunning = false;
 
@@ -33,7 +33,7 @@ class _CookingTimerState extends State<CookingTimer> {
   }
 
   void _stopTimer() {
-    _timer.cancel();
+    _timer?.cancel();
     setState(() => _isRunning = false);
   }
 
@@ -92,9 +92,7 @@ class _CookingTimerState extends State<CookingTimer> {
 
   @override
   void dispose() {
-    if (_isRunning) {
-      _timer.cancel();
-    }
+    _timer?.cancel();
     super.dispose();
   }
 }

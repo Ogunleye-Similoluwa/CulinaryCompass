@@ -149,12 +149,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildCategoriesSection() {
     final categories = [
-      {'icon': Icons.lunch_dining, 'name': 'Main Course'},
+      {'icon': Icons.restaurant, 'name': 'Beef'},
+      {'icon': Icons.local_pizza, 'name': 'Pasta'},
+      {'icon': Icons.set_meal, 'name': 'Seafood'},
+      {'icon': Icons.breakfast_dining, 'name': 'Chicken'},
+      {'icon': Icons.bakery_dining, 'name': 'Dessert'},
+      {'icon': Icons.grass, 'name': 'Vegetarian'},
       {'icon': Icons.breakfast_dining, 'name': 'Breakfast'},
-      {'icon': Icons.cake, 'name': 'Dessert'},
-      {'icon': Icons.local_drink, 'name': 'Beverages'},
-      {'icon': Icons.soup_kitchen, 'name': 'Soups'},
-      {'icon': Icons.restaurant, 'name': 'Appetizers'},
+      {'icon': Icons.lunch_dining, 'name': 'Goat'},
+      {'icon': Icons.restaurant, 'name': 'Lamb'},
+      {'icon': Icons.fastfood, 'name': 'Miscellaneous'},
+      {'icon': Icons.egg, 'name': 'Pork'},
+      {'icon': Icons.local_cafe, 'name': 'Vegan'},
     ];
 
     return Column(
@@ -227,9 +233,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildMealTypesSection() {
     final mealTypes = [
       {'icon': Icons.wb_sunny_outlined, 'name': 'Breakfast'},
-      {'icon': Icons.restaurant, 'name': 'Lunch'},
-      {'icon': Icons.dinner_dining, 'name': 'Dinner'},
-      {'icon': Icons.bakery_dining, 'name': 'Snacks'},
+      {'icon': Icons.lunch_dining, 'name': 'Starter'},
+      {'icon': Icons.dinner_dining, 'name': 'Side'},
+      {'icon': Icons.cake, 'name': 'Dessert'},
     ];
 
     return Column(
