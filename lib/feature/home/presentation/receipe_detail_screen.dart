@@ -51,18 +51,18 @@ class RecipeDetailScreen extends ConsumerWidget {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildInfoRow(),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   CookingTimer(totalMinutes: recipe.readyInMinutes),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildDietTags(),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   _buildIngredientsSection(),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   _buildInstructionsSection(),
                 ],
               ),
@@ -74,10 +74,10 @@ class RecipeDetailScreen extends ConsumerWidget {
         onPressed: () {
           ref.read(favoriteRecipesProvider.notifier).toggleFavorite(recipe);
         },
+        backgroundColor: Colors.red,
         child: Icon(
           isFavorite ? Icons.favorite : Icons.favorite_border,
         ),
-        backgroundColor: Colors.red,
       ),
     );
   }
@@ -98,7 +98,7 @@ class RecipeDetailScreen extends ConsumerWidget {
     return Column(
       children: [
         Icon(icon, size: 24),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(text),
       ],
     );
@@ -112,7 +112,7 @@ class RecipeDetailScreen extends ConsumerWidget {
         return Chip(
           label: Text(diet),
           backgroundColor: Colors.green.withOpacity(0.1),
-          labelStyle: TextStyle(color: Colors.green),
+          labelStyle: const TextStyle(color: Colors.green),
         );
       }).toList(),
     );
@@ -122,26 +122,26 @@ class RecipeDetailScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Ingredients',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         ...recipe.ingredients.map((ingredient) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
               children: [
-                Icon(Icons.fiber_manual_record, size: 8),
-                SizedBox(width: 8),
+                const Icon(Icons.fiber_manual_record, size: 8),
+                const SizedBox(width: 8),
                 Expanded(child: Text(ingredient)),
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -150,14 +150,14 @@ class RecipeDetailScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Instructions',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         InstructionsWidget(instructions: recipe.instructions),
       ],
     );
@@ -167,8 +167,7 @@ class RecipeDetailScreen extends ConsumerWidget {
 class InstructionsWidget extends StatefulWidget {
   final String instructions;
 
-  const InstructionsWidget({Key? key, required this.instructions})
-      : super(key: key);
+  const InstructionsWidget({super.key, required this.instructions});
 
   @override
   _InstructionsWidgetState createState() => _InstructionsWidgetState();
@@ -202,7 +201,7 @@ class _InstructionsWidgetState extends State<InstructionsWidget> {
             title: Text('Step ${i + 1}'),
             children: [
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Text(steps[i]),
               ),
             ],

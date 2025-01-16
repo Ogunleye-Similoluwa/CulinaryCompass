@@ -13,7 +13,7 @@ class FavoritesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorite Recipes'),
+        title: const Text('Favorite Recipes'),
       ),
       body: favoriteRecipes.isEmpty
           ? const Center(

@@ -7,7 +7,7 @@ import '../home/model/recipe_model.dart';
 
 class RecipeService {
   static const String _baseUrl = 'https://api.spoonacular.com/recipes';
-  static String? _apiKey = dotenv.env['API_KEY'];
+  static final String? _apiKey = dotenv.env['API_KEY'];
 
   Future<List<Recipe>> getRandomRecipes({int number = 10}) async {
     final response = await http.get(
@@ -49,6 +49,49 @@ print(response.body);
       return Recipe.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load recipe details');
+    }
+  }
+
+  Future<List<Recipe>> getRecipesByCategory(String category) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/complexSearch?type=$category&number=10&addRecipeInformation=true&apiKey=$_apiKey'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return (data['results'] as List)
+          .map((recipe) => Recipe.fromJson(recipe))
+          .toList();
+    } else {
+      throw Exception('Failed to load $category recipes');
+    }
+  }
+
+  Future<List<Recipe>> getPopularRecipes() async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/complexSearch?sort=popularity&number=10&addRecipeInformation=true&apiKey=$_apiKey'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return (data['results'] as List)
+          .map((recipe) => Recipe.fromJson(recipe))
+          .toList();
+    } else {
+      throw Exception('Failed to load popular recipes');
+    }
+  }
+
+  Future<List<Recipe>> getSimilarRecipes(String recipeId) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/$recipeId/similar?apiKey=$_apiKey'),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((recipe) => Recipe.fromJson(recipe)).toList();
+    } else {
+      throw Exception('Failed to load similar recipes');
     }
   }
 }

@@ -7,7 +7,7 @@ import '../../model/recipe_model.dart';
 
 
 class RecipeGrid extends ConsumerWidget {
-  final FutureProvider<List<Recipe>> provider;
+  final AsyncValue<List<Recipe>> provider;
 
   const RecipeGrid({
     Key? key,
@@ -16,9 +16,7 @@ class RecipeGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recipesAsync = ref.watch(provider);
-
-    return recipesAsync.when(
+    return provider.when(
       data: (recipes) => SliverGrid(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -39,10 +37,10 @@ class RecipeGrid extends ConsumerWidget {
           childCount: recipes.length,
         ),
       ),
-      loading: () => SliverToBoxAdapter(
+      loading: () => const SliverToBoxAdapter(
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (error, stack) => SliverToBoxAdapter(
+      error: (error, stack) => const SliverToBoxAdapter(
         child: Center(child: Text('Error loading recipes')),
       ),
     );

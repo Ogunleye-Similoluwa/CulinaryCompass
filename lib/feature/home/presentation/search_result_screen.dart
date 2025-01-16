@@ -38,7 +38,7 @@ class SearchResultsScreen extends ConsumerWidget {
             hintText: 'Search recipes...',
             border: InputBorder.none,
             suffixIcon: IconButton(
-              icon: Icon(Icons.clear),
+              icon: const Icon(Icons.clear),
               onPressed: () {
                 searchController.clear();
                 Navigator.pop(context);
@@ -54,7 +54,7 @@ class SearchResultsScreen extends ConsumerWidget {
           },
         ),
         actions: [
-          isLoading ? CircularProgressIndicator() : SizedBox.shrink(),
+          isLoading ? const CircularProgressIndicator() : const SizedBox.shrink(),
         ],
       ),
       body: RefreshIndicator(
@@ -66,12 +66,12 @@ class SearchResultsScreen extends ConsumerWidget {
         child: CustomScrollView(
           slivers: [
             SliverPadding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               sliver: Consumer(
                 builder: (context, ref, child) {
                   final currentQuery = ref.watch(searchQueryProvider);
                   return RecipeGrid(
-                    provider: searchRecipesProvider(currentQuery),
+                    provider: ref.watch(searchRecipesProvider(currentQuery)),
                   );
                 },
               ),

@@ -21,6 +21,21 @@ final favoriteRecipesProvider = StateNotifierProvider<FavoriteRecipesNotifier, L
   return FavoriteRecipesNotifier();
 });
 
+final categoryRecipesProvider = FutureProvider.family<List<Recipe>, String>((ref, category) async {
+  final recipeService = RecipeService();
+  return recipeService.getRecipesByCategory(category);
+});
+
+final popularRecipesProvider = FutureProvider<List<Recipe>>((ref) async {
+  final recipeService = RecipeService();
+  return recipeService.getPopularRecipes();
+});
+
+final mealTypeRecipesProvider = FutureProvider.family<List<Recipe>, String>((ref, mealType) async {
+  final recipeService = RecipeService();
+  return recipeService.getRecipesByCategory(mealType.toLowerCase());
+});
+
 class FavoriteRecipesNotifier extends StateNotifier<List<Recipe>> {
   FavoriteRecipesNotifier() : super([]);
 

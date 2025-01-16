@@ -22,7 +22,7 @@ class _RecipeSearchBarState extends ConsumerState<RecipeSearchBar> {
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var begin = Offset(0.0, 1.0);
+          var begin = const Offset(0.0, 1.0);
           var end = Offset.zero;
           var curve = Curves.easeInOutCubic;
           var tween = Tween(begin: begin, end: end).chain(
@@ -46,9 +46,9 @@ class _RecipeSearchBarState extends ConsumerState<RecipeSearchBar> {
         enabled: false,
         decoration: InputDecoration(
           hintText: 'Search recipes...',
-          prefixIcon: Icon(Icons.search),
+          prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
-            icon: Icon(Icons.clear),
+            icon: const Icon(Icons.clear),
             onPressed: () {
               _searchController.clear();
               _navigateToSearch(context);

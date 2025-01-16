@@ -4,7 +4,7 @@ import 'dart:async';
 class CookingTimer extends StatefulWidget {
   final int totalMinutes;
 
-  const CookingTimer({Key? key, required this.totalMinutes}) : super(key: key);
+  const CookingTimer({super.key, required this.totalMinutes});
 
   @override
   _CookingTimerState createState() => _CookingTimerState();
@@ -23,7 +23,7 @@ class _CookingTimerState extends State<CookingTimer> {
 
   void _startTimer() {
     setState(() => _isRunning = true);
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsRemaining > 0) {
         setState(() => _secondsRemaining--);
       } else {
@@ -52,25 +52,25 @@ class _CookingTimerState extends State<CookingTimer> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text(
+            const Text(
               'Cooking Timer',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               _formattedTime,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 48,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -79,7 +79,7 @@ class _CookingTimerState extends State<CookingTimer> {
                   onPressed: _isRunning ? _stopTimer : _startTimer,
                 ),
                 IconButton(
-                  icon: Icon(Icons.replay),
+                  icon: const Icon(Icons.replay),
                   onPressed: _resetTimer,
                 ),
               ],

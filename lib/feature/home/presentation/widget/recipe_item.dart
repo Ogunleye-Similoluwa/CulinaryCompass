@@ -10,10 +10,10 @@ class RecipeCard extends StatelessWidget {
   final VoidCallback onFavoritePressed;
 
   const RecipeCard({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.onFavoritePressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class RecipeCard extends StatelessWidget {
                   Hero(
           tag: 'recipe-image-${recipe.id}',
           child: ClipRRect(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
                       child: Image.network(
                        recipe.imageUrl,
                           height: 150,
@@ -61,28 +61,28 @@ class RecipeCard extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       recipe.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(Icons.timer, size: 16),
-                        SizedBox(width: 4),
+                        const Icon(Icons.timer, size: 16),
+                        const SizedBox(width: 4),
                         Text('${recipe.readyInMinutes} min'),
-                        Spacer(),
-                        Icon(Icons.local_fire_department, size: 16),
-                        SizedBox(width: 4),
+                        const Spacer(),
+                        const Icon(Icons.local_fire_department, size: 16),
+                        const SizedBox(width: 4),
                         Text('${recipe.calories} cal'),
                       ],
                     ),

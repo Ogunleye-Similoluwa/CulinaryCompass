@@ -26,7 +26,7 @@ class AppTheme {
       bodyLarge: _textStyle.bodyLarge,
       bodyMedium: _textStyle.bodyMedium,
       bodySmall: _textStyle.bodySmall,
-    ), colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColor.primarySwatch).copyWith(background: AppColor.backgroundWhite),
+    ), colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColor.primarySwatch).copyWith(surface: AppColor.backgroundWhite),
   );
 
   static ThemeData dark = ThemeData(
@@ -52,7 +52,7 @@ class AppTheme {
     ),
     colorScheme: ColorScheme.dark(
       primary: AppColor.primarySwatch,
-      background: AppColor.backgroundBlack,
+      surface: AppColor.backgroundBlack,
     ),
   );
 }
