@@ -43,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Collections'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Meal Plan'),
+          // BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Meal Plan'),
         ],
       ),
     );
@@ -61,7 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Recipe Finder', style: TextStyle(color: Colors.black)),
+              title: const Text('CulinaryCompass', style: TextStyle(color: Colors.black)),
               background: Stack(
                 fit: StackFit.expand,
                 children: [

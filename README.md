@@ -1,6 +1,15 @@
-# food_reciepe_finder
+# 🍳 CulinaryCompass
 
-A application that finds the receipe of any food
+Your personal guide to discovering and cooking delicious recipes from around the world.
+
+## 🌟 About
+
+CulinaryCompass is a modern recipe discovery app that helps you:
+- Find recipes based on ingredients you have
+- Learn cooking techniques with step-by-step instructions
+- Cook hands-free with voice commands
+- Save your favorite recipes for offline access
+- Explore cuisines from different cultures
 
 ## Getting Started
 
