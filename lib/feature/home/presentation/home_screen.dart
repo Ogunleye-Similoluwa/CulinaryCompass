@@ -7,6 +7,7 @@ import '../../riverpod/state_manager.dart';
 import 'favourite_screen.dart';
 import 'category_results_screen.dart';
 import 'collections_screen.dart';
+import 'meal_planner_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,10 +28,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           _buildHomeContent(),
           const FavoritesScreen(),
           const CollectionsScreen(),
+          // const MealPlannerScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -40,6 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Collections'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Meal Plan'),
         ],
       ),
     );

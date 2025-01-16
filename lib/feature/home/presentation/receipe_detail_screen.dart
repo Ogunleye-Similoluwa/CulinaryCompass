@@ -7,6 +7,7 @@ import '../../riverpod/state_manager.dart';
 import '../model/recipe_model.dart';
 import '../model/collection_model.dart';
 import '../presentation/collections_screen.dart';
+import '../presentation/cooking_mode_screen.dart';
 
 
 class RecipeDetailScreen extends ConsumerWidget {
@@ -92,6 +93,22 @@ class RecipeDetailScreen extends ConsumerWidget {
             child: Icon(
               isFavorite ? Icons.favorite : Icons.favorite_border,
             ),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CookingModeScreen(
+                    recipe: recipe,
+                    servings: recipe.servings,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.restaurant_menu),
+            label: const Text('Start Cooking'),
           ),
         ],
       ),

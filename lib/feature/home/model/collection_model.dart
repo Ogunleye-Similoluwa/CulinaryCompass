@@ -32,4 +32,28 @@ class RecipeCollection {
       isShared: isShared ?? this.isShared,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'recipes': recipes.map((r) => r.toJson()).toList(),
+      'createdAt': createdAt.toIso8601String(),
+      'isShared': isShared,
+    };
+  }
+
+  factory RecipeCollection.fromJson(Map<String, dynamic> json) {
+    return RecipeCollection(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      recipes: (json['recipes'] as List)
+          .map((r) => Recipe.fromJson(r))
+          .toList(),
+      createdAt: DateTime.parse(json['createdAt']),
+      isShared: json['isShared'],
+    );
+  }
 } 
