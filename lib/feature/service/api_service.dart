@@ -28,18 +28,79 @@ print(response.body);
   }
 
   Future<List<Recipe>> searchRecipes(String query) async {
-    final response = await http.get(
-      Uri.parse('$_baseUrl/complexSearch?query=$query&number=10&addRecipeInformation=true&apiKey=$_apiKey'),
-    );
-    print(response.body);
+    try {
+      List<Recipe> allResults = [];
+      
+      // Search from Spoonacular
+      try {
+        final spoonacularResponse = await http.get(
+          Uri.parse('$_baseUrl/complexSearch?query=$query&number=5&addRecipeInformation=true&apiKey=$_apiKey'),
+        );
+        if (spoonacularResponse.statusCode == 200) {
+          final data = json.decode(spoonacularResponse.body);
+          final spoonacularResults = (data['results'] as List)
+              .map((recipe) => Recipe.fromJson(recipe))
+              .toList();
+          allResults.addAll(spoonacularResults);
+        }
+      } catch (e) {
+        print('Spoonacular search error: $e');
+      }
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return (data['results'] as List)
-          .map((recipe) => Recipe.fromJson(recipe))
-          .toList();
-    } else {
-      throw Exception('Failed to search recipes');
+      // Search from TheMealDB
+      try {
+        final mealDbResponse = await http.get(
+          Uri.parse('$_mealDbUrl/search.php?s=$query'),
+        );
+        if (mealDbResponse.statusCode == 200) {
+          final data = json.decode(mealDbResponse.body);
+          final meals = data['meals'] as List?;
+          if (meals != null) {
+            final mealDbResults = await Future.wait(
+              meals.take(5).map((meal) async {
+                final detailedRecipe = await getMealDetails(meal['idMeal']);
+                return detailedRecipe;
+              }).whereType<Future<Recipe?>>(),
+            );
+            allResults.addAll(mealDbResults.whereType<Recipe>());
+          }
+        }
+      } catch (e) {
+        print('MealDB search error: $e');
+      }
+
+      // Get similar recipes if we have any results
+      if (allResults.isNotEmpty) {
+        try {
+          final similarResponse = await http.get(
+            Uri.parse('$_baseUrl/${allResults.first.id}/similar?apiKey=$_apiKey&number=3'),
+          );
+          if (similarResponse.statusCode == 200) {
+            final List<dynamic> similarData = json.decode(similarResponse.body);
+            final similarResults = similarData
+                .map((recipe) => Recipe.fromJson(recipe))
+                .toList();
+            allResults.addAll(similarResults);
+          }
+        } catch (e) {
+          print('Similar recipes error: $e');
+        }
+      }
+
+      // If still no results, try getting some random recipes from the category
+      if (allResults.isEmpty) {
+        try {
+          final categoryResults = await getRecipesByCategory(query);
+          allResults.addAll(categoryResults.take(5));
+        } catch (e) {
+          print('Category search error: $e');
+        }
+      }
+
+      return allResults;
+    } catch (e) {
+      print('Search error: $e');
+      return [];
     }
   }
 
