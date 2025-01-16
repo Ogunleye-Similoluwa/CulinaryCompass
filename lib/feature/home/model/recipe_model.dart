@@ -38,16 +38,27 @@ class Recipe extends Equatable {
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      id: json['id'],
+      id: json['id'].toString(),
       title: json['title'],
-      imageUrl: json['imageUrl'],
-      ingredients: List<String>.from(json['ingredients']),
-      instructions: json['instructions'],
-      readyInMinutes: json['readyInMinutes'],
-      servings: json['servings'],
-      calories: json['calories'],
-      rating: json['rating'].toDouble(),
+      imageUrl: json['image'] ?? json['imageUrl'] ?? '',
+      readyInMinutes: json['readyInMinutes'] ?? 0,
+      servings: json['servings'] ?? 1,
+      diets: List<String>.from(json['diets'] ?? []),
+      ingredients: List<String>.from(
+        json['extendedIngredients']?.map((i) => i['original']) ?? 
+        json['ingredients'] ?? []
+      ),
+      instructions: json['instructions'] ?? '',
+      rating: (json['spoonacularScore'] ?? 0.0) / 20,
+      calories: json['nutrition']?['nutrients']?.firstWhere(
+        (n) => n['name'] == 'Calories',
+        orElse: () => {'amount': 0},
+      )['amount']?.round() ?? 0,
       isFavorite: json['isFavorite'] ?? false,
+      area: json['area'],
+      category: json['category'],
+      tags: List<String>.from(json['tags'] ?? []),
+      youtubeUrl: json['youtubeUrl'],
     );
   }
 
