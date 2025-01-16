@@ -31,9 +31,14 @@ class _CookingModeScreenState extends ConsumerState<CookingModeScreen> {
     ScreenBrightness().setScreenBrightness(1.0);
     _speech = stt.SpeechToText();
     _initSpeech();
-    _instructions = widget.recipe.instructions.split('\n')
+    _instructions = widget.recipe.instructions
+        .split('\n')
         .where((step) => step.trim().isNotEmpty)
         .toList();
+    
+    if (_instructions.isEmpty) {
+      _instructions = ['No instructions available for this recipe.'];
+    }
   }
 
   Future<void> _initSpeech() async {
@@ -130,43 +135,39 @@ class _CookingModeScreenState extends ConsumerState<CookingModeScreen> {
   }
 
   Widget _buildInstructionsStep() {
-    return Card(
-      margin: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                _instructions[_currentStep],
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
-          ),
-          _buildNavigationButtons(),
-        ],
-      ),
-    );
-  }
+    if (_instructions.isEmpty) {
+      return const Center(
+        child: Text('No instructions available'),
+      );
+    }
 
-  Widget _buildNavigationButtons() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton.icon(
-            onPressed: _currentStep > 0 ? _previousStep : null,
-            icon: const Icon(Icons.arrow_back),
-            label: const Text('Previous'),
-          ),
-          ElevatedButton.icon(
-            onPressed: _currentStep < _instructions.length - 1 ? _nextStep : null,
-            icon: const Icon(Icons.arrow_forward),
-            label: const Text('Next'),
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Step ${_currentStep + 1} of ${_instructions.length}',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 16),
+        Text(
+          _instructions[_currentStep],
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const Spacer(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: _currentStep > 0 ? _previousStep : null,
+            ),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: _currentStep < _instructions.length - 1 ? _nextStep : null,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
