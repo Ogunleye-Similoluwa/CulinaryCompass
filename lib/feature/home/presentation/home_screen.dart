@@ -6,6 +6,7 @@ import 'package:food_reciepe_finder/feature/home/presentation/widget/receipe_sea
 import '../../riverpod/state_manager.dart';
 import 'favourite_screen.dart';
 import 'category_results_screen.dart';
+import 'collections_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         children: [
           _buildHomeContent(),
           const FavoritesScreen(),
+          const CollectionsScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -37,6 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
+          BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Collections'),
         ],
       ),
     );

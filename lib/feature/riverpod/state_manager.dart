@@ -52,3 +52,67 @@ class FavoriteRecipesNotifier extends StateNotifier<List<Recipe>> {
     return state.any((r) => r.id == recipe.id);
   }
 }
+
+// Add a class to handle search state
+class SearchState {
+  final List<Recipe> recipes;
+  final bool isLoading;
+  final int page;
+  final bool hasMore;
+
+  SearchState({
+    required this.recipes,
+    this.isLoading = false,
+    this.page = 1,
+    this.hasMore = true,
+  });
+
+  SearchState copyWith({
+    List<Recipe>? recipes,
+    bool? isLoading,
+    int? page,
+    bool? hasMore,
+  }) {
+    return SearchState(
+      recipes: recipes ?? this.recipes,
+      isLoading: isLoading ?? this.isLoading,
+      page: page ?? this.page,
+      hasMore: hasMore ?? this.hasMore,
+    );
+  }
+}
+
+// Create a notifier for search state
+class SearchNotifier extends StateNotifier<SearchState> {
+  final RecipeService _recipeService;
+  String _lastQuery = '';
+
+  SearchNotifier(this._recipeService) : super(SearchState(recipes: []));
+
+  Future<void> search(String query) async {
+    if (query != _lastQuery) {
+      state = SearchState(recipes: [], isLoading: true);
+      _lastQuery = query;
+    } else {
+      if (state.isLoading || !state.hasMore) return; // Prevent duplicate requests
+      state = state.copyWith(isLoading: true);
+    }
+
+    try {
+      final newRecipes = await _recipeService.searchRecipes(query, page: state.page);
+      state = state.copyWith(
+        recipes: state.page == 1 ? newRecipes : [...state.recipes, ...newRecipes],
+        isLoading: false,
+        hasMore: newRecipes.isNotEmpty,
+        page: state.page + 1,
+      );
+    } catch (e) {
+      state = state.copyWith(isLoading: false, hasMore: false);
+    }
+  }
+}
+
+// Update the provider
+final searchStateProvider = StateNotifierProvider<SearchNotifier, SearchState>((ref) {
+  return SearchNotifier(ref.watch(recipeServiceProvider));
+});

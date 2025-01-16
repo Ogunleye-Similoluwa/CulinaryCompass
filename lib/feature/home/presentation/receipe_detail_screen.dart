@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_reciepe_finder/feature/home/presentation/widget/cooking_timer_widget.dart';
+import 'package:food_reciepe_finder/feature/riverpod/collections_provider.dart';
 
 import '../../riverpod/state_manager.dart';
 import '../model/recipe_model.dart';
+import '../model/collection_model.dart';
+import '../presentation/collections_screen.dart';
 
 
 class RecipeDetailScreen extends ConsumerWidget {
@@ -70,14 +73,27 @@ class RecipeDetailScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref.read(favoriteRecipesProvider.notifier).toggleFavorite(recipe);
-        },
-        backgroundColor: Colors.red,
-        child: Icon(
-          isFavorite ? Icons.favorite : Icons.favorite_border,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'save',
+            onPressed: () => _showSaveToCollectionDialog(context, ref),
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.save),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: 'favorite',
+            onPressed: () {
+              ref.read(favoriteRecipesProvider.notifier).toggleFavorite(recipe);
+            },
+            backgroundColor: Colors.red,
+            child: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -160,6 +176,47 @@ class RecipeDetailScreen extends ConsumerWidget {
         const SizedBox(height: 8),
         InstructionsWidget(instructions: recipe.instructions),
       ],
+    );
+  }
+
+  void _showSaveToCollectionDialog(BuildContext context, WidgetRef ref) {
+    final collections = ref.watch(collectionsProvider);
+    
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const ListTile(
+            title: Text('Save to Collection'),
+          ),
+          ...collections.map(
+            (collection) => ListTile(
+              leading: const Icon(Icons.folder),
+              title: Text(collection.name),
+              onTap: () {
+                ref.read(collectionsProvider.notifier)
+                    .addRecipeToCollection(collection.id, recipe);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Added to ${collection.name}')),
+                );
+              },
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.add),
+            title: const Text('Create New Collection'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CollectionsScreen()),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
